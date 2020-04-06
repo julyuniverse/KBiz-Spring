@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper 
+			PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+			"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+			
+<mapper namespace="cSQL">
+
+	<!-- 코드리스트 출력 -->
+	<select id="codeList" resultType="cVO" parameterType="cVO">
+		SELECT
+		    CDNO cdno, CDLVL cdlv, UPCD highcd, CDNAME cdname, USEYN use
+		FROM
+		    CODEMNG
+		CONNECT BY NOCYCLE CDNO = UPCD
+		ORDER SIBLINGS BY CDNO ASC
+	</select>
+
+	<!-- 코드 상세 정보 출력 -->
+	<select id="codeInfo" resultType="cVO" parameterType="cVO">
+		SELECT
+		    CDNO cdno, CDLVL cdlv, UPCD highcd, CDNAME cdname, USEYN use
+		FROM
+		    CODEMNG
+		WHERE
+		    CDNO = #{cdno}
+	</select>
+	
+	<!-- 코드 추가 실행 -->
+	<insert id="codeAdd" parameterType="cVO">
+		INSERT INTO
+		    CODEMNG
+		VALUES(
+				    
+		    (SELECT
+		        'C'||LPAD(NVL(SUBSTR(MAX(CDNO),2,5)+1,1),4,'0')
+		    FROM
+		        CODEMNG), #{cdlv}, #{highcd}, #{cdname}, '관리자', sysdate, #{use}
+		)
+	</insert>
+	
+	<!-- 코드 수정 실행 -->
+	<update id="codeEdit" parameterType="cVO">
+		 UPDATE 
+		    CODEMNG
+		SET 
+		    CDLVL = #{cdlv}, UPCD = #{highcd}, CDNAME = #{cdname}, USEYN = #{use}
+		WHERE 
+		    CDNO = #{cdno} 
+	</update>
+</mapper>

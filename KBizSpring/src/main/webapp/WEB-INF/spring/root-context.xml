@@ -8,9 +8,9 @@
 	<!-- DataSource 설정 -->
 	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource">
 		<property name="driverClassName" value="oracle.jdbc.driver.OracleDriver" />
-		<property name="url" value="jdbc:oracle:thin:@localhost:1521:orcl" />
-		<property name="username" value="tslsql" />
-		<property name="password" value="1234" />
+		<property name="url" value="jdbc:oracle:thin:@192.168.0.11:1521:orcl" />
+		<property name="username" value="exam_manager" />
+		<property name="password" value="exam_manager!" />
 		<property name="maxActive" value="8" />
 	</bean>
 	
