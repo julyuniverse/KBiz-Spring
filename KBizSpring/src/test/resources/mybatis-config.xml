@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration
+	PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+			"http://mybatis.org/dtd/mybatis-3-config.dtd">
+
+<configuration>
+	
+	<!-- mybatis 활동 방식 설정 -->
+	<!-- 
+		caceEnabled : 같은 질의명령이라면 캐싱기능 사용여부를 결정하는 속성
+						디폴트는 true
+		useGeneratedKeys : 생성키에 대한 JDBC 지원을 허용
+							드라이버마다 조금 다르게 작동한다.
+							
+		defaultExecutorType : 디폴트 실행자 설정
+								REUSE 	: PreparedStatement 를 재사용
+								SIMPLE 	: 특별히 하는 것이 없다.
+								BATCH 	: 구문을 재사용하고 수정을 배치 처리.
+	-->
+	
+	<settings>
+		<setting name="cacheEnabled" value="false" />
+		<setting name="useGeneratedKeys" value="true" />
+		<setting name="defaultExecutorType" value="REUSE" />
+	</settings>
+	
+	<!-- mybatis 에서 사용할 타입 정의 -->
+	
+	<!-- 
+		mybatis 는 자바가 아니므로 원칙적으로 자바의 데이터 타입을 인식할 수 없다.
+		따라서 자바의 특정 데이터 타입이 필요하면 해당 클래스의 경로를 알려주고 그 클래스에 대한 타입을 만들어줘야한다.
+		그런데 자바에서 흔히 쓰이는 정수형이나 맵이나 아니면 문자열 같은 타입들은
+		사용빈도가 높기때문에 마이바티스가 버젼되면서 내부에 미리 매핑 처리를 해 놓았다.
+		
+		따라서 필요한 데이터 타입이 있다면 typeAliases 태그에 추가해서 사용하면 된다.
+	-->
+	
+	<typeAliases>
+		<!-- <typeAlias alias="mVO" type="com.TSL.www.vo.MemberVO" />
+		<typeAlias alias="cVO" type="com.TSL.www.vo.CodeVO" /> -->
+		
+	</typeAliases>
+	
+	<!-- mybatis에서 사용할 질의명령문서 추가 -->
+	<!-- 
+		마이바티스에서는 질의 명령을 xml 파일에 저장해두고
+		해당 파일의 내용중 필요한 질의명령만 선택해서 데이터베이스 처리를 하는 방식을 사용하고 있다.
+		따라서 해당 파일이 어떤 것을 사용할 것인지 밝혀줘야 그 파일내부에 만들어놓은 질의 명령을 사용할 수 있다.
+		
+		형식]
+			<mappers>
+				<mapper resource="사용할 xml1파일의 경로" />
+				<mapper resource="사용할 xml2파일의 경로" />
+			</mappers>
+	 -->
+	<mappers>
+		<!-- <mapper resource="com/TSL/www/sql/MemberSQL.xml" />
+		<mapper resource="com/TSL/www/sql/CodeSQL.xml" /> -->
+		
+	</mappers>
+	
+
+</configuration>
