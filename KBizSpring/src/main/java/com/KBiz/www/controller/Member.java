@@ -16,6 +16,27 @@ public class Member {
 	@Autowired
 	MemberDAO mDAO;
 
+	// 로그인 페이지
+	@RequestMapping("login")
+	public ModelAndView login(ModelAndView mv) {
+		
+		mv.setViewName("member/login");
+		return mv;
+	}
+	
+	// 로그인 실행
+	@RequestMapping("loginProc")
+	public ModelAndView loginProc(ModelAndView mv, RedirectView rv, MemberVO mVO) {
+		
+		int cnt = mDAO.loginProc(mVO);
+		if(cnt == 1) {
+			rv.setUrl("/www/main/main");
+		}else {
+			rv.setUrl("/www/member/login");
+		}
+		mv.setView(rv);
+		return mv;
+	}
 	// 회원가입 페이지
 	@RequestMapping("join")
 	public ModelAndView mv(ModelAndView mv) {

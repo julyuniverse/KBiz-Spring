@@ -15,4 +15,10 @@ public class MemberDAO {
 		
 		return sqlSession.insert("mSQL.joinProc", mVO);
 	}
+
+	// 로그인 실행
+	public int loginProc(MemberVO mVO) {
+		
+		return sqlSession.selectOne("mSQL.loginProc", mVO);
+	}
 }

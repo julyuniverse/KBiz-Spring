@@ -130,5 +130,15 @@
 		)
 	</insert>
 	
+	<!-- 로그인 실행 -->
+	<select id="loginProc" resultType="int" parameterType="mVO">
+		SELECT
+		    COUNT(*) cnt
+		FROM
+		    USERINFO
+		WHERE
+		    ID = #{id}
+		    AND PASS = #{pw}
+	</select>
 
 </mapper>
