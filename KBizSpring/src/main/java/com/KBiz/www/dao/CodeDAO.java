@@ -2,6 +2,7 @@ package com.KBiz.www.dao;
 
 import java.util.List;
 
+import org.apache.ibatis.binding.MapperMethod.ParamMap;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -40,5 +41,29 @@ public class CodeDAO {
 	
 		return sqlSession.update("cSQL.codeEdit", cVO);
 	}
+
+	// 1차 카테고리 리스트 출력
+	public List<CodeVO> categoryList(CodeVO cVO) {
+		
+		return sqlSession.selectList("cSQL.categoryList", cVO);
+	}
+		
+	// 1차 카테고리 선택시 자동으로 1차 분류 목록 실행
+	public List<CodeVO> itemListProc(CodeVO cVO) {
+		List<CodeVO> list = sqlSession.selectList("cSQL.itemListProc", cVO);
+		System.out.println(list.size());
+		return list; 
+	}
+
+	// 조회 클릭시 실행
+	public List<CodeVO> itemInfoList(CodeVO cVO) {
+		return sqlSession.selectList("cSQL.itemInfoList", cVO);
+	}
+
+	
+
+
+	
+	
 	
 }

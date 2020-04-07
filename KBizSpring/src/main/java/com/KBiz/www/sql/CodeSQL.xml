@@ -9,7 +9,7 @@
 	<!-- 코드리스트 출력 -->
 	<select id="codeList" resultType="cVO" parameterType="cVO">
 		SELECT
-		    CDNO cdno, CDLVL cdlv, UPCD highcd, CDNAME cdname, USEYN use
+		    CDNO cdno, CDLVL cdlv, UPCD highcd, CDNAME cdnm, USEYN use
 		FROM
 		    CODEMNG
 		CONNECT BY NOCYCLE CDNO = UPCD
@@ -19,7 +19,7 @@
 	<!-- 코드 상세 정보 출력 -->
 	<select id="codeInfo" resultType="cVO" parameterType="cVO">
 		SELECT
-		    CDNO cdno, CDLVL cdlv, UPCD highcd, CDNAME cdname, USEYN use
+		    CDNO cdno, CDLVL cdlv, UPCD highcd, CDNAME cdnm, USEYN use
 		FROM
 		    CODEMNG
 		WHERE
@@ -35,7 +35,7 @@
 		    (SELECT
 		        'C'||LPAD(NVL(SUBSTR(MAX(CDNO),2,5)+1,1),4,'0')
 		    FROM
-		        CODEMNG), #{cdlv}, #{highcd}, #{cdname}, '관리자', sysdate, #{use}
+		        CODEMNG), #{cdlv}, #{highcd}, #{cdnm}, '관리자', sysdate, #{use}
 		)
 	</insert>
 	
@@ -44,8 +44,37 @@
 		 UPDATE 
 		    CODEMNG
 		SET 
-		    CDLVL = #{cdlv}, UPCD = #{highcd}, CDNAME = #{cdname}, USEYN = #{use}
+		    CDLVL = #{cdlv}, UPCD = #{highcd}, CDNAME = #{cdnm}, USEYN = #{use}
 		WHERE 
 		    CDNO = #{cdno} 
 	</update>
+	
+	<!-- 1차 카테고리 리스트 출력 -->
+	<select id="categoryList" resultType="cVO">
+		SELECT
+		    CDNO cdno, CDNAME cdnm
+		FROM
+		    CODEMNG
+		WHERE
+		    CDLVL = 1
+	</select>
+	
+	<!-- 아이템 리스트 출력 실행 -->
+	<select id="itemListProc" resultType="cVO" parameterType="cVO">
+		SELECT
+		    UPCD highcd, CDNAME cdnm
+		FROM
+		    CODEMNG
+		where UPCD = #{cdno}
+	</select>
+	
+	<!-- 조회 클릭시 실행 -->
+	<select id="itemInfoList" resultType="cVO" parameterType="cVO">
+		SELECT
+    ITEMCD itemcd, ITEMNAME itemnm, MADENMCD madenmcd, (SELECT CDNAME FROM CODEMNG WHERE CDNO = 'C0055') madenmcd, (SELECT CDNAME FROM CODEMNG WHERE , STOCKAMT, STOCKYN, USEYN
+FROM
+    ITEMLIST
+where MADENMCD = 'C0055'
+
+	</select>
 </mapper>

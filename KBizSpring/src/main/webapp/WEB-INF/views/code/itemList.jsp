@@ -7,34 +7,52 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
-<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.4.1.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
-<title>Product List</title>
+<title>Item List</title>
 <style>
 
 </style>
 <script type="text/javascript">
 $(function(){
 	
-	// 카테고리, 1차 분류 선택 값 확인
+	// 1차 카테고리 선택시 자동으로 1차 분류 리스트 가져오기
+	$("select[name='category']").change(function() {
+		console.log($('select[name=category] > option:selected').val());
+		$.ajax({
+			url:"/www/code/itemListProc",
+			type:"post",
+			dataType:"json",
+			data:{"cdno": $('select[name=category] > option:selected').val()},
+			
+			success: function(data) {
+				$("select[name=firstClassification] option").remove(); // 옵션 제거
+				$("select[name=firstClassification]").append('<option value="">--선택--</option>');
+				for(key in data){
+					$("select[name=firstClassification]").append('<option value="' + data[key].highcd + '">' + data[key].cdnm + '</option>');
+				}
+				console.log(data[key]);
+			}
+		});
+	});
+	
+	// 조회 버튼 실행
 	function contents(){
-		
-		var category = $("select[name=category]").val();
-		var firstCF = $("select[name=firstClassification]").val();
+		var category = $('select[name=category]').val();
+		var firstClassification = $('select[name=firstClassification]').val();
 		
 		if(!category){
-			alert("카테고리를 선택해주세요.");
+			alert("카테고리를 선택해 주세요.");
 			return;
 		}
-		if(!firstCF){
-			alert("1차 분류를 선택해주세요.");
+		if(!firstClassification){
+			alert("1차 분류를 선택해 주세요.");
 			return;
 		}
-		$('#form1').attr("action", "/www/member/loginProc");
+		/* $('#form1').attr("action", "/www/code/itemInfoList");
+		$('#form1').submit(); */
 	}
-	
-	// 조회 클릭시 해당 리스츠 출력
 	$('#lookup').click(contents);
 });
 </script>
@@ -45,28 +63,27 @@ $(function(){
 		<h2>전체리스트</h2>
 		<form method="post" id="form1">
 			<div class="row">
-					<div class="col-md-2">카테고리:</div>
-					<div class="col-md-2">
-						<select name='category'>
-								<option value='' selected>-- 선택 --</option>
-							    <option value='SAMSUNG'>SAMSUNG</option>
-							    <option value='APPLE'>APPLE</option>
-							    <option value='LG'>LG</option>
-						</select>
-					</div>
-					<div class="col-md-1">1차 분류:</div>
-					<div class="col-md-2">
-						<select name='firstClassification'>
-								<option value='' selected>-- 선택 --</option>
-							    <option value='세탁기'>세탁기</option>
-						</select>
-					</div>
-				<div class="col-md-2">
+				<div class="col">카테고리:</div>
+				<div class="col">
+					<select name="category">
+						<option value='' selected>--선택--</option>
+						<c:forEach var="codeList" items="${codeList}">
+							<option value="${codeList.cdno}">${codeList.cdnm}</option>
+						</c:forEach>
+					</select>
+				</div>
+				<div class="col">1차 분류:</div>
+				<div class="col">
+					<select name='firstClassification'>
+						<option value='' selected>--선택--</option>
+					</select>
+				</div>
+				<div class="col">
 					<button type="button" id="lookup">조회</button>
 				</div>
 			</div>
 		</form>
-		
+
 		<table class="table table-bordered text-center">
 			<thead>
 				<tr>

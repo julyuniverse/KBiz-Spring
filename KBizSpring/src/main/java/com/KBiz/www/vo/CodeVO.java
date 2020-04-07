@@ -5,10 +5,19 @@ public class CodeVO {
 	private String cdno;
 	private int cdlv;
 	private String highcd;
-	private String cdname;
+	private String cdnm;
 	private String use;
+	private String itemnm;
+	private String itemcd;
+	
 	public String getCdno() {
 		return cdno;
+	}
+	public String getCdnm() {
+		return cdnm;
+	}
+	public void setCdnm(String cdnm) {
+		this.cdnm = cdnm;
 	}
 	public void setCdno(String cdno) {
 		this.cdno = cdno;
@@ -25,16 +34,24 @@ public class CodeVO {
 	public void setHighcd(String highcd) {
 		this.highcd = highcd;
 	}
-	public String getCdname() {
-		return cdname;
-	}
-	public void setCdname(String cdname) {
-		this.cdname = cdname;
-	}
 	public String getUse() {
 		return use;
 	}
 	public void setUse(String use) {
 		this.use = use;
 	}
+	public String getItemnm() {
+		return itemnm;
+	}
+	public void setItemnm(String itemnm) {
+		this.itemnm = itemnm;
+	}
+	public String getItemcd() {
+		return itemcd;
+	}
+	public void setItemcd(String itemcd) {
+		this.itemcd = itemcd;
+	}
+	
+	
 }
