@@ -51,14 +51,30 @@ public class CodeDAO {
 	// 1차 카테고리 선택시 자동으로 1차 분류 목록 실행
 	public List<CodeVO> itemListProc(CodeVO cVO) {
 		List<CodeVO> list = sqlSession.selectList("cSQL.itemListProc", cVO);
-		System.out.println(list.size());
+		System.out.println("itemListProc size" + list.size());
 		return list; 
 	}
 
 	// 조회 클릭시 실행
 	public List<CodeVO> itemInfoList(CodeVO cVO) {
-		return sqlSession.selectList("cSQL.itemInfoList", cVO);
+		List<CodeVO> list = sqlSession.selectList("cSQL.itemInfoList", cVO);
+		System.out.println("itemInfoList size" + list.size());
+		return list;
 	}
+
+	// 아이템 상세 조회 실행
+	public CodeVO itemInfo(CodeVO cVO) {
+		
+		return sqlSession.selectOne("cSQL.itemInfo", cVO);
+	}
+
+	public int itemAdd(CodeVO cVO) {
+
+		return sqlSession.insert("cSQL.itemAdd", cVO);
+		
+	}
+
+	
 
 	
 

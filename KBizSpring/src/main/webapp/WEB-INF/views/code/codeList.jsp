@@ -33,7 +33,7 @@ $(function(){
 				$('#cdno').html(data.cdno);
 				$('#cdlv').html(data.cdlv);
 				$('#highcd').html(data.highcd);
-				$('#cdname').html(data.cdname);
+				$('#cdnm').html(data.cdnm);
 				$('#use').html(data.use);
 				$('.ei').css('display', 'none');
 				$('.list').css('display', 'inline-block');
@@ -58,7 +58,7 @@ $(function(){
 		$('.cdno').val('');
 		$('.cdlv').val('');
 		$('.highcd').val('');
-		$('.cdname').val('');
+		$('.cdnm').val('');
 		$('.use').val('');
 	});
 	
@@ -77,7 +77,7 @@ $(function(){
 		$('.cdno').val($('#cdno').text());
 		$('.cdlv').val($('#cdlv').text());
 		$('.highcd').val($('#highcd').text());
-		$('.cdname').val($('#cdname').text());
+		$('.cdnm').val($('#cdnm').text());
 		$('.use').val($('#use').text());
 		
 		
@@ -138,7 +138,7 @@ $(function(){
 						<td>${data.cdno }</td>
 						<td>${data.cdlv }</td>
 						<td>${data.highcd }</td>
-						<td>${data.cdname }</td>
+						<td>${data.cdnm }</td>
 						<td><input type="checkbox" id="${data.use }" disabled="disabled"></td>
 					</tr>
 				</c:forEach>
@@ -158,8 +158,8 @@ $(function(){
 					<input class="ei cdlv" type="text" name="cdlv" disabled></p>
 				<p>상위코드:<span class="list" id="highcd"></span>
 					<input class="ei highcd" type="text" name="highcd" disabled></p>
-				<p>코드이름:<span class="list" id="cdname"></span>
-					<input class="ei cdname" type="text" name="cdname" disabled></p>
+				<p>코드이름:<span class="list" id="cdnm"></span>
+					<input class="ei cdnm" type="text" name="cdnm" disabled></p>
 				<p>사용여부:<span class="list" id="use"></span>
 					<input type="hidden" name="use">
 					<input class="ei use" type="checkbox" name="useCK" disabled></p>

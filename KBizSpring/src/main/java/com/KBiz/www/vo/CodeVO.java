@@ -9,6 +9,12 @@ public class CodeVO {
 	private String use;
 	private String itemnm;
 	private String itemcd;
+	private String madenmcd;
+	private String brand;
+	private String itemunitcd;
+	private String itemunitcdnm;
+	private int stockamt;
+	private String stockyn;
 	
 	public String getCdno() {
 		return cdno;
@@ -51,6 +57,42 @@ public class CodeVO {
 	}
 	public void setItemcd(String itemcd) {
 		this.itemcd = itemcd;
+	}
+	public String getMadenmcd() {
+		return madenmcd;
+	}
+	public void setMadenmcd(String madenmcd) {
+		this.madenmcd = madenmcd;
+	}
+	public String getBrand() {
+		return brand;
+	}
+	public void setBrand(String brand) {
+		this.brand = brand;
+	}
+	public String getItemunitcd() {
+		return itemunitcd;
+	}
+	public void setItemunitcd(String itemunitcd) {
+		this.itemunitcd = itemunitcd;
+	}
+	public String getItemunitcdnm() {
+		return itemunitcdnm;
+	}
+	public void setItemunitcdnm(String itemunitcdnm) {
+		this.itemunitcdnm = itemunitcdnm;
+	}
+	public int getStockamt() {
+		return stockamt;
+	}
+	public void setStockamt(int stockamt) {
+		this.stockamt = stockamt;
+	}
+	public String getStockyn() {
+		return stockyn;
+	}
+	public void setStockyn(String stockyn) {
+		this.stockyn = stockyn;
 	}
 	
 	

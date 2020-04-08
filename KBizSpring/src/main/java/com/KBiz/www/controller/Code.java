@@ -78,7 +78,7 @@ public class Code {
 	// 1차 카테고리 선택시 자동으로 1차 분류 리스트 출력 실행
 	@RequestMapping("itemListProc")
 	public void itemListProc(CodeVO cVO, HttpServletResponse response) throws IOException {
-		System.out.println(cVO.getCdno());
+		System.out.println("itemListProc cdno" + cVO.getCdno());
 		
 		List<CodeVO> list = cDAO.itemListProc(cVO);
 		String gson = new Gson().toJson(list); 
@@ -90,12 +90,33 @@ public class Code {
 	
 	// 조회 클릭시 실행
 	@RequestMapping("itemInfoList")
-	public ModelAndView itemInfoList(ModelAndView mv, CodeVO cVO) {
+	public void itemInfoList(CodeVO cVO, HttpServletResponse response) throws IOException {
+		System.out.println("itemInfoList cdno" + cVO.getCdno());
 		
 		List<CodeVO> list = cDAO.itemInfoList(cVO);
+		String gson = new Gson().toJson(list);
+		PrintWriter pw = response.getWriter();
+		pw.write(gson);
+		pw.flush();
+		pw.close();
+	}
+	
+	// 코드 내용 출력
+	@RequestMapping("itemInfo")
+	public @ResponseBody CodeVO itemInfo(CodeVO cVO) {
+			
+		cVO = cDAO.itemInfo(cVO);
 		
-		mv.addObject("itemList", list);
-		mv.setViewName("code/itemList");
+		return cVO;
+	}
+	
+	// 아이템 추가 실행
+	@RequestMapping("itemAdd")
+	public ModelAndView itemAdd(ModelAndView mv, RedirectView rv, CodeVO cVO) {
+	
+		cDAO.itemAdd(cVO);
+	
+		mv.setViewName("code/itemRV");
 		return mv;
 	}
 }
