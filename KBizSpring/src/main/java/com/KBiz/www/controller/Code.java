@@ -101,7 +101,7 @@ public class Code {
 		pw.close();
 	}
 	
-	// 코드 내용 출력
+	// 아이템 리스트 중 한개 클릭시 내용 출력
 	@RequestMapping("itemInfo")
 	public @ResponseBody CodeVO itemInfo(CodeVO cVO) {
 			
@@ -119,4 +119,48 @@ public class Code {
 		mv.setViewName("code/itemRV");
 		return mv;
 	}
+	
+	// 아이템 수정 실행
+	@RequestMapping("itemEdit")
+	public ModelAndView itemEdit(ModelAndView mv, RedirectView rv, CodeVO cVO) {
+	
+		cDAO.itemEdit(cVO);
+	
+		mv.setViewName("code/itemRV"); return mv;
+	}
+	
+	// 입고 페이지
+	@RequestMapping("warehousingPage")
+	public ModelAndView warehousingPage(ModelAndView mv, CodeVO cVO) {
+		
+		List<CodeVO> list = cDAO.categoryList(cVO);
+		mv.addObject("codeList", list);
+		
+		List<CodeVO> WHlist = cDAO.WHlist(cVO);
+		mv.addObject("WHlist", WHlist);
+		
+		mv.setViewName("code/warehousingPage");
+		return mv;
+	}
+	
+	// 수량 추가 실행
+	@RequestMapping("qowAdd")
+	public ModelAndView qowAdd(ModelAndView mv, RedirectView rv, CodeVO cVO) {
+		
+		cDAO.qowAdd(cVO);
+		
+		mv.setViewName("code/WHPRV");
+		return mv;
+	}
+	
+	// 금일 리스트 중 한개 클릭시 내용 출력
+	@RequestMapping("WHinfo")
+	public @ResponseBody CodeVO WHinfo(CodeVO cVO) {
+				
+		cVO = cDAO.WHinfo(cVO);
+			
+		return cVO;
+	}
+	
+	
 }

@@ -68,15 +68,37 @@ public class CodeDAO {
 		return sqlSession.selectOne("cSQL.itemInfo", cVO);
 	}
 
+	// 아이템 추가 실행
 	public int itemAdd(CodeVO cVO) {
 
 		return sqlSession.insert("cSQL.itemAdd", cVO);
 		
 	}
 
+	// 아이템 수정 실행
+	public int itemEdit(CodeVO cVO) {
 	
+		return sqlSession.update("cSQL.itemEdit", cVO);
+	}
 
+	// 입고리스트 출력
+	public List<CodeVO> WHlist(CodeVO cVO) {
+		
+		return sqlSession.selectList("cSQL.WHlist", cVO);
+	}
+
+	// 수량 추가 실행
+		public int qowAdd(CodeVO cVO) {
+
+			return sqlSession.insert("cSQL.qowAdd", cVO);
+			
+	}
 	
+	// 금일리스트 한개 클릭시 상세 조회 실행
+	public CodeVO WHinfo(CodeVO cVO) {
+		
+		return sqlSession.selectOne("cSQL.WHinfo", cVO);
+	}
 
 
 	

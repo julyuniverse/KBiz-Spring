@@ -15,6 +15,8 @@ public class CodeVO {
 	private String itemunitcdnm;
 	private int stockamt;
 	private String stockyn;
+	private int qow;
+	private String whcd;
 	
 	public String getCdno() {
 		return cdno;
@@ -93,6 +95,18 @@ public class CodeVO {
 	}
 	public void setStockyn(String stockyn) {
 		this.stockyn = stockyn;
+	}
+	public int getQow() {
+		return qow;
+	}
+	public void setQow(int qow) {
+		this.qow = qow;
+	}
+	public String getWhcd() {
+		return whcd;
+	}
+	public void setWhcd(String whcd) {
+		this.whcd = whcd;
 	}
 	
 	

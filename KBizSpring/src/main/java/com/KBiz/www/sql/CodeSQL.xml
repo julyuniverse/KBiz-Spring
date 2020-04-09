@@ -97,7 +97,7 @@
 		            ITEMLIST
 		        WHERE
 		            ITEMCD = #{itemcd})) brand,
-		    DECODE(ITEMUNITCD,'C0061', '개', 'C0062', '벌') itemunitcd, USEYN use
+		    DECODE(ITEMUNITCD,'C0061', '개', 'C0062', '벌') itemunitcdnm, ITEMUNITCD itemunitcd, USEYN use
 		FROM
 		    ITEMLIST
 		WHERE
@@ -113,15 +113,71 @@
 		        'I'||LPAD(NVL(SUBSTR(MAX(ITEMCD),2,5)+1,1),4,'0')
 		    FROM
 		        ITEMLIST),
-		    '아이폰8', 'C0051', 'C0061',
+		    #{itemnm}, #{brand}, #{itemunitcd},
 		    (SELECT NVL(MAX(STOCKAMT)+1,1) FROM ITEMLIST WHERE ITEMCD = 
 			(SELECT
 		        'I'||LPAD(NVL(SUBSTR(MAX(ITEMCD),2,5)+1,1),4,'0')
 		    FROM
 		        ITEMLIST)),
-		    'N', '관리자', sysdate, 'N' , 'C0000'
+		    'N', '관리자', sysdate, #{use}, 'C0000'
 		)
 	</insert>
 	
+	<!-- 아이템 수정 실행 -->
+	<update id="itemEdit" parameterType="cVO">
+		UPDATE 
+		    ITEMLIST
+		SET 
+		    ITEMNAME = #{itemnm}, MADENMCD = #{brand}, ITEMUNITCD = #{itemunitcd}, USEYN = #{use}
+		WHERE 
+		    ITEMCD = #{itemcd}
+	</update>
 	
+	<!-- 금일 입고 리스트 출력 -->
+	<select id="WHlist" resultType="cVO" parameterType="cVO">
+		SELECT
+		    ITEMLIST.ITEMCD itemcd, ITEMNAME itemnm, ITEMLIST.MADENMCD madenmcd,
+		    (SELECT CDNAME
+		    FROM CODEMNG
+		    WHERE ITEMLIST.MADENMCD = CODEMNG.CDNO) brand,
+		    ITEMLIST.ITEMUNITCD itemunitcd,
+		    (SELECT CDNAME
+		    FROM CODEMNG
+		    WHERE ITEMLIST.ITEMUNITCD = CODEMNG.CDNO) itemunitcdnm,
+		    INSAMT qow, INSITEMLISTCD whcd
+		FROM
+		    ITEMLIST, INITEMLIST
+		WHERE
+		    ITEMLIST.ITEMCD = INITEMLIST.ITEMCD
+		    AND INITEMLIST.INSDATE = TO_CHAR(SYSDATE, 'YY/MM/DD')
+	</select>
+	
+	<!-- 수량 추가 실행 -->
+	<insert id="qowAdd" parameterType="cVO">
+		INSERT INTO INITEMLIST
+		VALUES(
+		    #{itemcd},
+		    (SELECT 'II'||LPAD(NVL(SUBSTR(MAX(INSITEMLISTCD),3,10)+1,1),8,'0')
+		    FROM INITEMLIST),
+		    #{qow}, SYSDATE, '관리자'
+		)
+	</insert>
+	
+	<!-- 금일 리스트 하나 클릭시 실행 -->
+	<select id="WHinfo" resultType="cVO" parameterType="cVO">
+		SELECT
+			INSITEMLISTCD whcd,
+		    INITEMLIST.ITEMCD itemcd, ITEMNAME itemnm,
+		    (SELECT CDNAME
+		    FROM CODEMNG
+		    WHERE CDNO = MADENMCD) brand,
+		    ITEMUNITCD itemunitcd,
+		    (SELECT CDNAME
+		    FROM CODEMNG
+		    WHERE CDNO = ITEMUNITCD) itemunitcdnm,
+		    INSAMT qow
+		FROM INITEMLIST, ITEMLIST
+		WHERE INITEMLIST.ITEMCD = ITEMLIST.ITEMCD
+		AND INITEMLIST.INSITEMLISTCD = #{whcd}
+	</select>
 </mapper>
