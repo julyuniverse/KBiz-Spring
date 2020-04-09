@@ -129,7 +129,7 @@ $(function(){
 				$('input[name=qow]').val(data.qow);
 			},
 			error : function(){
-				alert('코드 정보 요청에 실패했습니다.');
+				alert('코드 정보 요청에 실패했습니다..');
 			}
 		});
 		
