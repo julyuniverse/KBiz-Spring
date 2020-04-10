@@ -100,7 +100,11 @@ public class CodeDAO {
 		return sqlSession.selectOne("cSQL.WHinfo", cVO);
 	}
 
-
+	// 금일 리스트 중 하나 수정 진행
+	public int qowUpdate(CodeVO cVO) {
+		
+		return sqlSession.update("cSQL.qowUpdate", cVO);
+	}
 	
 	
 	

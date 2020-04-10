@@ -16,6 +16,8 @@
 </style>
 <script type="text/javascript">
 $(function(){
+
+	$('#OPqow2').css('display', 'none');
 	
 	// 1차 카테고리 선택시 자동으로 1차 분류 리스트 가져오기
 	$("select[name='cdno']").change(function() {
@@ -97,7 +99,7 @@ $(function(){
 				$('#OPitemnm').html(data.itemnm);
 				$('#OPbrand').html(data.brand);
 				$('#OPitemunitcdnm').html(data.itemunitcdnm);
-				$('input[name=qow]').val("");
+				$('input[name=qow]').val(data.qow);
 			},
 			error : function(){
 				alert('코드 정보 요청에 실패했습니다.');
@@ -127,6 +129,9 @@ $(function(){
 				$('#OPitemunitcdnm').html(data.itemunitcdnm);
 				$('#OPqow').html(data.qow);
 				$('input[name=qow]').val(data.qow);
+				
+				$('#OPqow2').css('display', 'block');
+				$('#OPqow3').css('display', 'none');
 			},
 			error : function(){
 				alert('코드 정보 요청에 실패했습니다..');
@@ -138,7 +143,8 @@ $(function(){
 	// 수정 버튼
 	$('#update').click(function(){
 		$('#twoAction').val("a2");
-		
+		$('#OPqow2').css('display', 'none');
+		$('#OPqow3').css('display', 'block');
 	});
 	
 	// 저장 버튼
@@ -236,20 +242,20 @@ $(function(){
 			<div style="border-bottom:1px solid black">입고내용</div>
 			
 			<!-- 2가지 경로로 보내기 위해서 버튼 클릭시 값을 변경 -->
-			<input type="text" id="twoAction" value="a1">
+			<input type="hidden" id="twoAction" value="a1">
 			
 			<form method="post" id="form1">
-			<input type="text" id="whcd" name="whcd">
+			<input type="hidden" id="whcd" name="whcd">
 			<p>상품코드:<span id="OPitemcd"></span></p>
-			<p>상품코드:<input id="IPitemcd" type="text" name="itemcd"></p>
+			<p><input id="IPitemcd" type="hidden" name="itemcd"></p>
 			
 			<p>상 품 명:<span id="OPitemnm"></span></p>
 			
 			<p>제 조 사:<span id="OPbrand"></span></p>
 			
 			<p>단 위 명:<span id="OPitemunitcdnm"></span></p>
-			<p>입고수량:<span id="OPqow"></span></p>
-			<p>입고수량:<input type="text" name="qow"></p>
+			<p id="OPqow2">입고수량:<span id="OPqow"></span></p>
+			<p id="OPqow3">입고수량:<input type="text" name="qow"></p>
 			</form>
 			
 			<button type="button" id="update">수정</button>

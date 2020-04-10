@@ -85,19 +85,17 @@
 	<select id="itemInfo" resultType="cVO" parameterType="cVO">
 		SELECT
 		    ITEMCD itemcd, ITEMNAME itemnm,
-		    (SELECT
-		        CDNAME
-		    FROM
-		        CODEMNG
-		    WHERE
-		        CDNO =
-		        (SELECT
-		            MADENMCD
-		        FROM
-		            ITEMLIST
-		        WHERE
-		            ITEMCD = #{itemcd})) brand,
-		    DECODE(ITEMUNITCD,'C0061', '개', 'C0062', '벌') itemunitcdnm, ITEMUNITCD itemunitcd, USEYN use
+		    (SELECT CDNAME
+		    FROM CODEMNG
+		    WHERE CDNO =
+		        (SELECT MADENMCD
+		        FROM ITEMLIST
+		        WHERE ITEMCD = #{itemcd})) brand,
+		    DECODE(ITEMUNITCD,'C0061', '개', 'C0062', '벌') itemunitcdnm,
+		    ITEMUNITCD itemunitcd, USEYN use,
+		    (SELECT INSAMT
+	        FROM INITEMLIST
+	        WHERE INITEMLIST.ITEMCD = #{itemcd}) qow
 		FROM
 		    ITEMLIST
 		WHERE
@@ -180,4 +178,11 @@
 		WHERE INITEMLIST.ITEMCD = ITEMLIST.ITEMCD
 		AND INITEMLIST.INSITEMLISTCD = #{whcd}
 	</select>
+	
+	<!-- 금일 리스트 중 하나 수정 진행 -->
+	<update id="qowUpdate" parameterType="cVO">
+		UPDATE INITEMLIST
+		SET INSAMT = #{qow}
+		WHERE INSITEMLISTCD = #{whcd}
+	</update>
 </mapper>

@@ -162,5 +162,14 @@ public class Code {
 		return cVO;
 	}
 	
+	// 금일 리스트중 하나 수정 진행
+	@RequestMapping("qowUpdate")
+	public ModelAndView qowUpdate(ModelAndView mv, RedirectView rv, CodeVO cVO) {
+		
+		cDAO.qowUpdate(cVO);
+		
+		mv.setViewName("code/WHPRV");
+		return mv;
+	}
 	
 }
