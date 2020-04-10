@@ -172,4 +172,12 @@ public class Code {
 		return mv;
 	}
 	
+	
+	// 주문 상세 페이지 출력
+	@RequestMapping("orderDetailsPage")
+	public ModelAndView orderDetailsPage(ModelAndView mv) {
+		
+		mv.setViewName("code/orderDetailsPage");
+		return mv;
+	}
 }
