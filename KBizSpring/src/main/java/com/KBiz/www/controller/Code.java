@@ -175,9 +175,24 @@ public class Code {
 	
 	// 주문 상세 페이지 출력
 	@RequestMapping("orderDetailsPage")
-	public ModelAndView orderDetailsPage(ModelAndView mv) {
+	public ModelAndView orderDetailsPage(ModelAndView mv,CodeVO cVO) {
+		
+		List<CodeVO> list = cDAO.categoryList(cVO);
+		mv.addObject("codeList", list);
+		
+		List<CodeVO> list2 = cDAO.orderList(cVO);
+		mv.addObject("orderList", list2);
 		
 		mv.setViewName("code/orderDetailsPage");
 		return mv;
+	}
+	
+	// 해당 리스트중 한개 클릭시
+	@RequestMapping("orderListInfo")
+	public @ResponseBody CodeVO orderListInfo(CodeVO cVO) {
+		
+		cVO = cDAO.orderListInfo(cVO);
+		
+		return cVO;
 	}
 }

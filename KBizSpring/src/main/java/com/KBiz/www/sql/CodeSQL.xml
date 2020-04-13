@@ -81,7 +81,7 @@
 		WHERE MADENMCD = #{cdno}
 	</select>
 	
-	<!-- 아이템 상세 조회 -->
+	<!-- 아이템 리스트 중 하나 클릭시 조회 -->
 	<select id="itemInfo" resultType="cVO" parameterType="cVO">
 		SELECT
 		    ITEMCD itemcd, ITEMNAME itemnm,
@@ -185,4 +185,103 @@
 		SET INSAMT = #{qow}
 		WHERE INSITEMLISTCD = #{whcd}
 	</update>
+	
+	<!-- 오더 리스트 출력 -->
+	<select id="orderList" resultType="cVO" parameterType="cVO">
+		SELECT OUTITEMLIST.ITEMCD itemcd,
+		        (SELECT ITEMNAME
+		        FROM ITEMLIST
+		        WHERE ITEMLIST.ITEMCD = OUTITEMLIST.ITEMCD) itemnm,
+		        (SELECT MADENMCD
+		        FROM ITEMLIST
+		        WHERE ITEMLIST.ITEMCD = OUTITEMLIST.ITEMCD) madenmcd,
+		        (SELECT CDNAME
+		        FROM CODEMNG
+		        WHERE CDNO =
+		            (SELECT MADENMCD
+		            FROM ITEMLIST
+		            WHERE ITEMLIST.ITEMCD = OUTITEMLIST.ITEMCD)) brand,
+		        (SELECT CDNAME
+		        FROM CODEMNG
+		        WHERE CDNO =
+		            (SELECT ITEMUNITCD
+		            FROM ITEMLIST
+		            WHERE ITEMLIST.ITEMCD = OUTITEMLIST.ITEMCD)) itemunitcdnm,
+		        DELIVAMT fq,
+		        (SELECT ID
+		        FROM USERINFODETAIL
+		        WHERE USERINFODETAIL.USERINFODETAILCD = OUTITEMLIST.USERINFODETAILCD) id,
+		        (SELECT NAME
+		        FROM USERINFO, USERINFODETAIL
+		        WHERE USERINFO.ID = USERINFODETAIL.ID
+		        AND USERINFODETAIL.USERINFODETAILCD = OUTITEMLIST.USERINFODETAILCD) name,
+		        DECODE((SELECT RELCD
+		        FROM USERINFODETAIL
+		        WHERE userinfodetail.userinfodetailcd = outitemlist.userinfodetailcd),'C0021', '본인','C0022', '부모님', 'C0023', '동생', 'C0024', '지인') rel,
+		        (SELECT ADDRCD
+		        FROM USERINFODETAIL
+		        WHERE USERINFODETAIL.USERINFODETAILCD = OUTITEMLIST.USERINFODETAILCD) postcd,
+		        (SELECT ADDRNAME
+		        FROM USERINFODETAIL
+		        WHERE USERINFODETAIL.USERINFODETAILCD = OUTITEMLIST.USERINFODETAILCD) adr,
+		        (SELECT MOBILETELNO
+		        FROM USERINFODETAIL
+		        WHERE USERINFODETAIL.USERINFODETAILCD = OUTITEMLIST.USERINFODETAILCD) mp,
+		        (SELECT HOMETELNO
+		        FROM USERINFODETAIL
+		        WHERE USERINFODETAIL.USERINFODETAILCD = OUTITEMLIST.USERINFODETAILCD) ht,
+		        OUTITEMLIST.CHECKYN inspection,
+		        OUTITEMLIST.DELIVYN delvy,
+		        OUTITEMLIST.OUTITEMLISTCD outitemlistcd
+		FROM OUTITEMLIST
+		WHERE OUTITEMLIST.INSDATE = TO_CHAR(SYSDATE, 'YY/MM/DD')
+	</select>
+	
+	<!-- 주문 리스트 중 하나 클릭시 -->
+	<select id="orderListInfo" resultType="cVO" parameterType="cVO">
+		SELECT OUTITEMLIST.ITEMCD itemcd,
+		        (SELECT ITEMNAME
+		        FROM ITEMLIST
+		        WHERE ITEMLIST.ITEMCD = OUTITEMLIST.ITEMCD) itemnm,
+		        (SELECT CDNAME
+		        FROM CODEMNG
+		        WHERE CDNO =
+		            (SELECT MADENMCD
+		            FROM ITEMLIST
+		            WHERE ITEMLIST.ITEMCD = OUTITEMLIST.ITEMCD)) brand,
+		        (SELECT CDNAME
+		        FROM CODEMNG
+		        WHERE CDNO =
+		            (SELECT ITEMUNITCD
+		            FROM ITEMLIST
+		            WHERE ITEMLIST.ITEMCD = OUTITEMLIST.ITEMCD)) itemunitcdnm,
+		        DELIVAMT fq,
+		        (SELECT ID
+		        FROM USERINFODETAIL
+		        WHERE USERINFODETAIL.USERINFODETAILCD = OUTITEMLIST.USERINFODETAILCD) id,
+		        (SELECT NAME
+		        FROM USERINFO, USERINFODETAIL
+		        WHERE USERINFO.ID = USERINFODETAIL.ID
+		        AND USERINFODETAIL.USERINFODETAILCD = OUTITEMLIST.USERINFODETAILCD) name,
+		        DECODE((SELECT RELCD
+		        FROM USERINFODETAIL
+		        WHERE userinfodetail.userinfodetailcd = outitemlist.userinfodetailcd),'C0021', '본인','C0022', '부모님', 'C0023', '동생', 'C0024', '지인') rel,
+		        (SELECT ADDRCD
+		        FROM USERINFODETAIL
+		        WHERE USERINFODETAIL.USERINFODETAILCD = OUTITEMLIST.USERINFODETAILCD) postcd,
+		        (SELECT ADDRNAME
+		        FROM USERINFODETAIL
+		        WHERE USERINFODETAIL.USERINFODETAILCD = OUTITEMLIST.USERINFODETAILCD) adr,
+		        (SELECT MOBILETELNO
+		        FROM USERINFODETAIL
+		        WHERE USERINFODETAIL.USERINFODETAILCD = OUTITEMLIST.USERINFODETAILCD) mp,
+		        (SELECT HOMETELNO
+		        FROM USERINFODETAIL
+		        WHERE USERINFODETAIL.USERINFODETAILCD = OUTITEMLIST.USERINFODETAILCD) ht,
+		        OUTITEMLIST.CHECKYN inspection,
+		        OUTITEMLIST.DELIVYN delvy,
+		        OUTITEMLIST.OUTITEMLISTCD outitemlistcd
+		FROM OUTITEMLIST
+		WHERE OUTITEMLIST.OUTITEMLISTCD = #{outitemlistcd}
+	</select>
 </mapper>

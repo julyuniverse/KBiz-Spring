@@ -17,6 +17,18 @@ public class CodeVO {
 	private String stockyn;
 	private int qow;
 	private String whcd;
+	private int fq;
+	private String id;
+	private String name;
+	private String rel;
+	private int postcd;
+	private String adr;
+	private String mp;
+	private String ht;
+	private String inspection;
+	private String delvy;
+	private String outitemlistcd;
+	private String usercd;
 	
 	public String getCdno() {
 		return cdno;
@@ -107,6 +119,78 @@ public class CodeVO {
 	}
 	public void setWhcd(String whcd) {
 		this.whcd = whcd;
+	}
+	public int getFq() {
+		return fq;
+	}
+	public void setFq(int fq) {
+		this.fq = fq;
+	}
+	public String getId() {
+		return id;
+	}
+	public void setId(String id) {
+		this.id = id;
+	}
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
+	public String getRel() {
+		return rel;
+	}
+	public void setRel(String rel) {
+		this.rel = rel;
+	}
+	public int getPostcd() {
+		return postcd;
+	}
+	public void setPostcd(int postcd) {
+		this.postcd = postcd;
+	}
+	public String getAdr() {
+		return adr;
+	}
+	public void setAdr(String adr) {
+		this.adr = adr;
+	}
+	public String getMp() {
+		return mp;
+	}
+	public void setMp(String mp) {
+		this.mp = mp;
+	}
+	public String getHt() {
+		return ht;
+	}
+	public void setHt(String ht) {
+		this.ht = ht;
+	}
+	public String getInspection() {
+		return inspection;
+	}
+	public void setInspection(String inspection) {
+		this.inspection = inspection;
+	}
+	public String getDelvy() {
+		return delvy;
+	}
+	public void setDelvy(String delvy) {
+		this.delvy = delvy;
+	}
+	public String getOutitemlistcd() {
+		return outitemlistcd;
+	}
+	public void setOutitemlistcd(String outitemlistcd) {
+		this.outitemlistcd = outitemlistcd;
+	}
+	public String getUsercd() {
+		return usercd;
+	}
+	public void setUsercd(String usercd) {
+		this.usercd = usercd;
 	}
 	
 	

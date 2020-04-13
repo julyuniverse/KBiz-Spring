@@ -106,6 +106,15 @@ public class CodeDAO {
 		return sqlSession.update("cSQL.qowUpdate", cVO);
 	}
 	
+	// 금일 주문 리스트 출력
+	public List<CodeVO> orderList(CodeVO cVO){
+		
+		return sqlSession.selectList("cSQL.orderList", cVO);
+	}
 	
-	
+	// 오더 리스트 중 하나 클릭시
+	public CodeVO orderListInfo(CodeVO cVO) {
+		
+		return sqlSession.selectOne("cSQL.orderListInfo", cVO);
+	}
 }
