@@ -17,6 +17,9 @@
 <script type="text/javascript">
 $(function(){
 	
+	// 첫 화면 금일 주문 출고 리스트 안보이게
+	$('#form2').css('display', 'none');
+	
 	// 1차 카테고리 선택시 자동으로 1차 분류 리스트 가져오기
 	$("select[name='cdno']").change(function() {
 		console.log($('select[name=cdno] > option:selected').val());
@@ -41,7 +44,7 @@ $(function(){
 	function contents(){
 		var cdno = $('select[name=cdno]').val();
 		var firstClassification = $('select[name=firstClassification]').val();
-		alert(firstClassification);
+
 		if(!cdno){
 			alert("카테고리를 선택해 주세요.");
 			return;
@@ -82,7 +85,8 @@ $(function(){
 	// 아이템 리스트중 한개 클릭시 상세보기
 	$(document).on('click', '.iteminfo', function(){
 		var itemcd = $(this).attr('id');
-		alert(itemcd);
+		$('#form1').css('display', 'block');
+		$('#form2').css('display', 'none');
 		
 		$.ajax({
 			url		: "/www/code/itemInfo",
@@ -93,23 +97,10 @@ $(function(){
 			},
 			success : function(data){
 				$('#itemcd').html(data.itemcd);
+				$('input[name=itemcd]').val(data.itemcd);
 				$('#itemnm').html(data.itemnm);
 				$('#brand').html(data.brand);
 				$('#itemunitcdnm').html(data.itemunitcdnm);
-				$('#fq').html(data.fq);
-				$('#id').html(data.id);
-				$('#name').html(data.name);
-				$('#rel').html(data.rel);
-				$('#postcd').html(data.postcd);
-				$('#adr').html(data.adr);
-				$('#mp').html(data.mp);
-				$('#ht').html(data.ht);
-				$('#OPitemcd').html(data.itemcd);
-				$('#IPitemcd').val(data.itemcd);
-				$('#OPitemnm').html(data.itemnm);
-				$('#OPbrand').html(data.brand);
-				$('#OPitemunitcdnm').html(data.itemunitcdnm);
-				$('input[name=qow]').val(data.qow);
 			},
 			error : function(){
 				alert('코드 정보 요청에 실패했습니다.');
@@ -117,9 +108,11 @@ $(function(){
 		});
 	});
 	
-	// 리스트중 하나 클릭시
+	// 금일 주문 출고 리스트중 하나 클릭시
 	$('.orderListInfo').click(function(){
 		var outitemlistcd = $(this).attr('id');
+		$('#form1').css('display', 'none');
+		$('#form2').css('display', 'block');
 
 		$.ajax({
 			url		: "/www/code/orderListInfo",
@@ -130,26 +123,94 @@ $(function(){
 			},
 			success : function(data){
 				$('#outitemlistcd').val(data.outitemlistcd);
-				$('#itemcd').html(data.itemcd);
-				$('#itemnm').html(data.itemnm);
-				$('#brand').html(data.brand);
-				$('#itemunitcdnm').html(data.itemunitcdnm);
-				$('#fq').html(data.fq);
-				$('#id').html(data.id);
-				$('#name').html(data.name);
-				$('#rel').html(data.rel);
-				$('#postcd').html(data.postcd);
-				$('#adr').html(data.adr);
-				$('#mp').html(data.mp);
-				$('#ht').html(data.ht);
-				$('#inspection').html(data.inspection);
-				$('#delvy').html(data.delvy);
+				$('input[name=itemcd]').val(data.itemcd);
+				$('input[name=fq]').val(data.fq);
+				$('#itemcd2').html(data.itemcd);
+				$('#itemnm2').html(data.itemnm);
+				$('#brand2').html(data.brand);
+				$('#itemunitcdnm2').html(data.itemunitcdnm);
+				$('#fq2').html(data.fq);
+				$('#id2').html(data.id);
+				$('#name2').html(data.name);
+				$('#rel2').html(data.rel);
+				$('#postcd2').html(data.postcd);
+				$('#adr2').html(data.adr);
+				$('#mp2').html(data.mp);
+				$('#ht2').html(data.ht);
+				$('#inspection2').html(data.inspection);
+				$('#delvy2').html(data.delvy);
+				$('#delvycocd2').html(data.delvycocd);
+				$('#invoiceno2').html(data.invoiceno);
+				$('#invoicenoDP').val(data.invoiceno);
 			},
 			error : function(){
 				alert('코드 정보 요청에 실패했습니다.');
 			}
 		});
 	});
+	
+	// 저장 버튼
+	$('#save').click(function(){
+		var action = $('#twoAction').val();
+		
+		// 코드 추가 실행
+		if(action == 'a1'){
+			alert("추가 했습니다.");
+			// SQL 검수박스 값 넘길 때
+			if ($('#inspCK').is(":checked")) {
+			    $('input[name=inspection]').val('Y');
+			} else {
+			    $('input[name=inspection]').val('N');
+			}
+			
+			// SQL 배송박스 값 넘길 때
+			if ($('#delCK').is(":checked")) {
+			    $('input[name=delvy]').val('Y');
+			} else {
+			    $('input[name=delvy]').val('N');
+			}
+			
+			$('#form1').attr("action", "/www/code/fqAdd");
+			$('#form1').submit();
+			
+		// 코드 수정 실행
+		}else{
+			alert("수정 했습니다.");
+			
+			// SQL 검수박스 값 넘길 때
+			if ($('#inspCK2').is(":checked")) {
+			    $('input[name=inspection]').val('Y');
+			} else {
+			    $('input[name=inspection]').val('N');
+			}
+			
+			// SQL 배송박스 값 넘길 때
+			if ($('#delCK2').is(":checked")) {
+			    $('input[name=delvy]').val('Y');
+			} else {
+			    $('input[name=delvy]').val('N');
+			}
+			
+			$('#form2').attr("action", "/www/code/fqUpdate");
+			$('#form2').submit();
+			
+		}
+	});
+	
+	// 수정 버튼 클릭시
+	$('#update').click(function(){
+		$('#twoAction').val("a2");
+		$('#delvy2').css('display', 'none');
+		$('#inspection2').css('display', 'none');
+		$('#invoiceno2').css('display', 'none');
+		$('#delvycocd2').css('display', 'none');
+		
+		$('#inspCK2').css('display', 'inline-block');
+		$('#delCK2').css('display', 'inline-block');
+		$('#delvycocdDP').css('display', 'inline-block');
+		$('#invoicenoDP').css('display', 'inline-block');
+	});
+	
 });
 </script>
 </head>
@@ -196,7 +257,7 @@ $(function(){
 		</table>
 		
 		<div class="row">
-			<h2>금일 주문 리스트</h2>
+			<h2>금일 주문 출고 리스트</h2>
 			<table class="table table-bordered text-center">
 				<thead>
 					<tr>
@@ -242,33 +303,26 @@ $(function(){
 			
 		</div>
 		<!-- 2가지 경로로 보내기 위해서 버튼 클릭시 값을 변경 -->
-		<input type="text" id="twoAction" value="a1">
+		<input type="hidden" id="twoAction" value="a1">
 		
 		<form method="post" id="form1">
-			<input type="text" id="outitemlistcd">
 			<div class="row">
-				<div class="col-md"><p>상품코드:<span id="itemcd"></span></p><input type="text"></div>
+				<div class="col-md"><p>상품코드:<span id="itemcd"></span><input type="hidden" name="itemcd"></p></div>
 				<div class="col-md"><p>상품명:<span id="itemnm"></span></p></div>
 				<div class="col-md"><p>제조사:<span id="brand"></span></p></div>
 			</div>
 			<div class="row">
 				<div class="col-md"><p>단위:<span id="itemunitcdnm"></span></p></div>
-				<div class="col-md"><p>출고수량:<span id="fq"></span></p></div>
-				<div class="col-md"><p>회원아이디:<span id="id"></span></p></div>
+				<div class="col-md"><p>출고수량:<input type="text" name="fq"></p></div>
+				<div class="col-md"><p>회원아이디:<input type="text" name="id"></p></div>
 			</div>
 			<div class="row">
-				<div class="col-md"><p>회원이름:<span id="name"></span></p></div>
-				<div class="col-md"><p>관계:<span id="rel"></span></p></div>
-				<div class="col-md"><p>우편번호:<span id="postcd"></span></p></div>
+				<div class="col-md"><p>회원이름:<input type="text" name="name"></p></div>
+				
 			</div>
 			<div class="row">
-				<div class="col-md"><p>주소:<span id="adr"></span></p></div>
-				<div class="col-md"><p>휴대전화:<span id="mp"></span></p></div>
-				<div class="col-md"><p>집전화:<span id="ht"></span></p></div>
-			</div>
-			<div class="row">
-				<div class="col-md"><p>검수여부:<input type="checkbox"></p></div>
-				<div class="col-md"><p>배송여부:<input type="checkbox"></p></div>
+				<div class="col-md"><p>검수여부:<input type="checkbox" id="inspCK"><input type="hidden" name="inspection"></p></div>
+				<div class="col-md"><p>배송여부:<input type="checkbox" id="delCK"><input type="hidden" name="delvy"></p></div>
 				<div class="col-md">
 					<p>배송회사:
 						<select name="delvycocd">
@@ -284,7 +338,50 @@ $(function(){
 				<div class="col-md"><p></p></div>
 			</div>
 		</form>
-		<button type="button">수정</button>
+		
+		<form method="post" id="form2">
+			<input type="hidden" name="outitemlistcd" id="outitemlistcd">
+			<input type="hidden" name="itemcd">
+			<input type="hidden" name="fq">
+			<div class="row">
+				<div class="col-md"><p>상품코드:<span id="itemcd2"></span></p></div>
+				<div class="col-md"><p>상품명:<span id="itemnm2"></span></p></div>
+				<div class="col-md"><p>제조사:<span id="brand2"></span></p></div>
+			</div>
+			<div class="row">
+				<div class="col-md"><p>단위:<span id="itemunitcdnm2"></span></p></div>
+				<div class="col-md"><p>출고수량:<span id="fq2"></span></p></div>
+				<div class="col-md"><p>회원아이디:<span id="id2"></span></p></div>
+			</div>
+			<div class="row">
+				<div class="col-md"><p>회원이름:<span id="name2"></span></p></div>
+				<div class="col-md"><p>관계:<span id="rel2"></span></p></div>
+				<div class="col-md"><p>우편번호:<span id="postcd2"></span></p></div>
+			</div>
+			<div class="row">
+				<div class="col-md"><p>주소:<span id="adr2"></span></p></div>
+				<div class="col-md"><p>휴대전화:<span id="mp2"></span></p></div>
+				<div class="col-md"><p>집전화:<span id="ht2"></span></p></div>
+			</div>
+			<div class="row">
+				<div class="col-md"><p>검수여부:<span id="inspection2"></span><input type="checkbox" id="inspCK2" style="display:none"><input type="hidden" name="inspection"></p></div>
+				<div class="col-md"><p>배송여부:<span id="delvy2"></span><input type="checkbox" id="delCK2" style="display:none"><input type="hidden" name="delvy"></p></div>
+				<div class="col-md">
+					<p>배송회사:<span id="delvycocd2"></span>
+						<select id="delvycocdDP" name="delvycocd" style="display:none">
+							<option value="C0081">CJ대한통운</option>
+							<option value="C0082">우체국택배</option>
+						</select>
+					</p>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md"><p>송장번호:<span id="invoiceno2"></span><input id="invoicenoDP" type="text" name="invoiceno" style="display:none"></p></div>
+				<div class="col-md"><p></p></div>
+				<div class="col-md"><p></p></div>
+			</div>
+		</form>
+		<button type="button" id="update">수정</button>
 		<button type="button" id="save">저장</button>
 	</div>
 </body>

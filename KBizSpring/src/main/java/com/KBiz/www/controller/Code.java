@@ -148,7 +148,8 @@ public class Code {
 	public ModelAndView qowAdd(ModelAndView mv, RedirectView rv, CodeVO cVO) {
 		
 		cDAO.qowAdd(cVO);
-		
+		// ITEMLIST 재고에도 입고값 추가
+		cDAO.addINVT(cVO);
 		mv.setViewName("code/WHPRV");
 		return mv;
 	}
@@ -162,11 +163,17 @@ public class Code {
 		return cVO;
 	}
 	
-	// 금일 리스트중 하나 수정 진행
+	// 금일 입고 리스트중 하나 수정 진행
 	@RequestMapping("qowUpdate")
 	public ModelAndView qowUpdate(ModelAndView mv, RedirectView rv, CodeVO cVO) {
 		
 		cDAO.qowUpdate(cVO);
+	
+		System.out.println(cVO.getItemcd());
+		System.out.println(cVO.getQow());
+		System.out.println(cVO.getQow2());
+		// 금일 입고 수량 수정시 ITEMLIST 재고에도 수정 반영
+		cDAO.WHupdate(cVO);
 		
 		mv.setViewName("code/WHPRV");
 		return mv;
@@ -194,5 +201,33 @@ public class Code {
 		cVO = cDAO.orderListInfo(cVO);
 		
 		return cVO;
+	}
+	
+	// 금일 주문 출고 1개 추가 실행
+	@RequestMapping("fqAdd")
+	public ModelAndView fqAdd(ModelAndView mv, RedirectView rv, CodeVO cVO) {
+
+		cDAO.fqAdd(cVO);
+		if(cVO.getDelvy().equals("Y")) {
+			cDAO.stock(cVO);
+		}
+		
+		mv.setViewName("code/ODPRV");
+		return mv;
+	}
+	
+	// 금일 주문 출고 리스트중 하나 수정 진행
+	@RequestMapping("fqUpdate")
+	public ModelAndView fqUpdate(ModelAndView mv, RedirectView rv, CodeVO cVO) {
+			
+		cDAO.fqUpdate(cVO);
+		if(cVO.getDelvy().equals("Y")) {
+			cDAO.stock(cVO);
+		}
+		if(cVO.getDelvy().equals("N")) {
+			cDAO.cancelF(cVO);
+		}
+		mv.setViewName("code/ODPRV");
+		return mv;
 	}
 }

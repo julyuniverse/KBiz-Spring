@@ -16,6 +16,7 @@ public class CodeVO {
 	private int stockamt;
 	private String stockyn;
 	private int qow;
+	private int qow2;
 	private String whcd;
 	private int fq;
 	private String id;
@@ -29,6 +30,8 @@ public class CodeVO {
 	private String delvy;
 	private String outitemlistcd;
 	private String usercd;
+	private String delvycocd;
+	private String invoiceno;
 	
 	public String getCdno() {
 		return cdno;
@@ -114,6 +117,12 @@ public class CodeVO {
 	public void setQow(int qow) {
 		this.qow = qow;
 	}
+	public int getQow2() {
+		return qow2;
+	}
+	public void setQow2(int qow2) {
+		this.qow2 = qow2;
+	}
 	public String getWhcd() {
 		return whcd;
 	}
@@ -191,6 +200,18 @@ public class CodeVO {
 	}
 	public void setUsercd(String usercd) {
 		this.usercd = usercd;
+	}
+	public String getDelvycocd() {
+		return delvycocd;
+	}
+	public void setDelvycocd(String delvycocd) {
+		this.delvycocd = delvycocd;
+	}
+	public String getInvoiceno() {
+		return invoiceno;
+	}
+	public void setInvoiceno(String invoiceno) {
+		this.invoiceno = invoiceno;
 	}
 	
 	

@@ -92,10 +92,7 @@
 		        FROM ITEMLIST
 		        WHERE ITEMCD = #{itemcd})) brand,
 		    DECODE(ITEMUNITCD,'C0061', '개', 'C0062', '벌') itemunitcdnm,
-		    ITEMUNITCD itemunitcd, USEYN use,
-		    (SELECT INSAMT
-	        FROM INITEMLIST
-	        WHERE INITEMLIST.ITEMCD = #{itemcd}) qow
+		    ITEMUNITCD itemunitcd, USEYN use
 		FROM
 		    ITEMLIST
 		WHERE
@@ -161,6 +158,13 @@
 		)
 	</insert>
 	
+	<!-- ITEMLIST 재고에도 입고 수량 추가 -->
+	<update id="addINVT" parameterType="cVO">
+		UPDATE ITEMLIST
+		SET STOCKAMT = STOCKAMT + #{qow}
+		WHERE ITEMCD = #{itemcd}
+	</update>
+	
 	<!-- 금일 리스트 하나 클릭시 실행 -->
 	<select id="WHinfo" resultType="cVO" parameterType="cVO">
 		SELECT
@@ -179,11 +183,18 @@
 		AND INITEMLIST.INSITEMLISTCD = #{whcd}
 	</select>
 	
-	<!-- 금일 리스트 중 하나 수정 진행 -->
+	<!-- 금일 입고 리스트 중 하나 수정 진행 -->
 	<update id="qowUpdate" parameterType="cVO">
 		UPDATE INITEMLIST
 		SET INSAMT = #{qow}
 		WHERE INSITEMLISTCD = #{whcd}
+	</update>
+	
+	<!-- 금일 입고 1개 수정시 ITEMLIST 재고에도 수정 반영 -->
+	<update id="WHupdate" parameterType="cVO">
+		UPDATE ITEMLIST
+		SET STOCKAMT = STOCKAMT - #{qow2} + #{qow}
+		WHERE ITEMCD = #{itemcd}
 	</update>
 	
 	<!-- 오더 리스트 출력 -->
@@ -280,8 +291,44 @@
 		        WHERE USERINFODETAIL.USERINFODETAILCD = OUTITEMLIST.USERINFODETAILCD) ht,
 		        OUTITEMLIST.CHECKYN inspection,
 		        OUTITEMLIST.DELIVYN delvy,
+		        OUTITEMLIST.DELIVNO invoiceno,
+		        DECODE(OUTITEMLIST.DELIVCORPCD, 'C0081', 'CJ대한통운', 'C0082', '우체국택배') delvycocd,
 		        OUTITEMLIST.OUTITEMLISTCD outitemlistcd
 		FROM OUTITEMLIST
 		WHERE OUTITEMLIST.OUTITEMLISTCD = #{outitemlistcd}
 	</select>
+	
+	<!-- 출고 수량 추가 실행 -->
+	<insert id="fqAdd" parameterType="cVO">
+		INSERT INTO OUTITEMLIST
+		VALUES(
+		#{itemcd},
+		(SELECT DISTINCT USERINFODETAIL.USERINFODETAILCD
+		FROM USERINFODETAIL, USERINFO
+		WHERE USERINFODETAIL.ID = #{id}
+		AND USERINFO.NAME = #{name}), 
+		(SELECT 'OI'||LPAD(NVL(SUBSTR(MAX(OUTITEMLISTCD),3,10)+1,1),8,'0')FROM OUTITEMLIST), #{fq}, '검수자', SYSDATE, #{inspection}, #{delvy}, #{delvycocd}, #{invoiceno}, '관리자', SYSDATE
+		)
+	</insert>
+	
+	<!-- 금일 주문 출고 리스트 중 하나 수정 -->
+	<update id="fqUpdate" parameterType="cVO">
+		UPDATE OUTITEMLIST
+		SET  CHECKYN = #{inspection}, DELIVYN = #{delvy}, DELIVCORPCD = #{delvycocd}, DELIVNO = #{invoiceno}
+		WHERE OUTITEMLISTCD = #{outitemlistcd}
+	</update>
+	
+	<!-- 배송 출고시 재고수정 -->
+	<update id="stock" parameterType="cVO">
+		UPDATE ITEMLIST
+		SET STOCKAMT = STOCKAMT - #{fq}
+		WHERE ITEMCD = #{itemcd}
+	</update>
+	
+	<!-- 배송 출고 취소시 재고수정 -->
+	<update id="cancelF" parameterType="cVO">
+		UPDATE ITEMLIST
+		SET STOCKAMT = STOCKAMT + #{fq}
+		WHERE ITEMCD = #{itemcd}
+	</update>
 </mapper>

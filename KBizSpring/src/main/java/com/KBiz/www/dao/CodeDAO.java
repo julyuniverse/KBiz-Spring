@@ -88,10 +88,15 @@ public class CodeDAO {
 	}
 
 	// 수량 추가 실행
-		public int qowAdd(CodeVO cVO) {
+	public int qowAdd(CodeVO cVO) {
 
-			return sqlSession.insert("cSQL.qowAdd", cVO);
-			
+		return sqlSession.insert("cSQL.qowAdd", cVO);
+	}
+	
+	// ITEMLIST 재고에도 입고 수량 추가
+	public int addINVT(CodeVO cVO) {
+		
+		return sqlSession.update("cSQL.addINVT", cVO);
 	}
 	
 	// 금일리스트 한개 클릭시 상세 조회 실행
@@ -100,10 +105,16 @@ public class CodeDAO {
 		return sqlSession.selectOne("cSQL.WHinfo", cVO);
 	}
 
-	// 금일 리스트 중 하나 수정 진행
+	// 금일 입고 리스트 중 하나 수정 진행
 	public int qowUpdate(CodeVO cVO) {
 		
 		return sqlSession.update("cSQL.qowUpdate", cVO);
+	}
+	
+	// 금일 입고 수량 변경시 ITEMLIST 재고에도 수정 반영
+	public int WHupdate(CodeVO cVO) {
+		
+		return sqlSession.update("cSQL.WHupdate", cVO);
 	}
 	
 	// 금일 주문 리스트 출력
@@ -116,5 +127,30 @@ public class CodeDAO {
 	public CodeVO orderListInfo(CodeVO cVO) {
 		
 		return sqlSession.selectOne("cSQL.orderListInfo", cVO);
+	}
+	
+	// 출고 수량 추가 실행
+	public int fqAdd(CodeVO cVO) {
+		
+		return sqlSession.insert("cSQL.fqAdd", cVO);
+	}
+	
+	// 금일 주문 출고 리스트 중 하나 수정 진행
+	public int fqUpdate(CodeVO cVO) {
+			
+		return sqlSession.update("cSQL.fqUpdate", cVO);
+	}
+	
+	// 배송 출고시 재고 수정
+	public int stock(CodeVO cVO) {
+		System.out.println(cVO.getItemcd());
+		System.out.println(cVO.getFq());
+		return sqlSession.update("cSQL.stock", cVO);
+	}
+	
+	// 배송 취소시 재고 수정
+	public int cancelF(CodeVO cVO) {
+		
+		return sqlSession.update("cSQL.cancelF", cVO);
 	}
 }

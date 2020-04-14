@@ -43,7 +43,7 @@ $(function(){
 	function contents(){
 		var cdno = $('select[name=cdno]').val();
 		var firstClassification = $('select[name=firstClassification]').val();
-		alert(firstClassification);
+		
 		if(!cdno){
 			alert("카테고리를 선택해 주세요.");
 			return;
@@ -84,7 +84,11 @@ $(function(){
 	// 아이템 리스트중 한개 클릭시 상세보기
 	$(document).on('click', '.iteminfo', function(){
 		var itemcd = $(this).attr('id');
-		alert(itemcd);
+		$('#OPqow2').css('display', 'none');
+		$('#OPqow3').css('display', 'inline-block');
+		$('input[name=qow]').val("");
+		$('input[name=qow2]').val(0);
+		
 		
 		$.ajax({
 			url		: "/www/code/itemInfo",
@@ -99,7 +103,6 @@ $(function(){
 				$('#OPitemnm').html(data.itemnm);
 				$('#OPbrand').html(data.brand);
 				$('#OPitemunitcdnm').html(data.itemunitcdnm);
-				$('input[name=qow]').val(data.qow);
 			},
 			error : function(){
 				alert('코드 정보 요청에 실패했습니다.');
@@ -110,7 +113,6 @@ $(function(){
 	// 금일 입고리스트중 한개 클릭시 상세보기
 	$(document).on('click', '.WHinfo', function(){
 		var whcd = $(this).attr('id');
-		alert(whcd);
 		
 		$.ajax({
 			url		: "/www/code/WHinfo",
@@ -128,6 +130,7 @@ $(function(){
 				$('#OPitemunitcdnm').html(data.itemunitcdnm);
 				$('#OPqow').html(data.qow);
 				$('input[name=qow]').val(data.qow);
+				$('input[name=qow2]').val(data.qow);
 				
 				$('#OPqow2').css('display', 'block');
 				$('#OPqow3').css('display', 'none');
@@ -200,7 +203,7 @@ $(function(){
 					<th>상품명</th>
 					<th>제조사코드</th>
 					<th>제조사명</th>
-					<th>단위코드1</th>
+					<th>단위코드</th>
 					<th>단위명</th>
 					<th>재고수량</th>
 					<th>재고여부</th>
@@ -254,6 +257,7 @@ $(function(){
 			
 			<p>단 위 명:<span id="OPitemunitcdnm"></span></p>
 			<p id="OPqow2">입고수량:<span id="OPqow"></span></p>
+			<input type="hidden" name="qow2">
 			<p id="OPqow3">입고수량:<input type="text" name="qow"></p>
 			</form>
 			
