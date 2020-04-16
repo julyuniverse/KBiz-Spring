@@ -166,14 +166,13 @@ public class Code {
 	// 금일 입고 리스트중 하나 수정 진행
 	@RequestMapping("qowUpdate")
 	public ModelAndView qowUpdate(ModelAndView mv, RedirectView rv, CodeVO cVO) {
-		
+		// 금일 입고 수량 수정시 ITEMLIST 재고에도 수정 반영
+		cDAO.WHupdate(cVO);
 		cDAO.qowUpdate(cVO);
 	
 		System.out.println(cVO.getItemcd());
 		System.out.println(cVO.getQow());
-		System.out.println(cVO.getQow2());
-		// 금일 입고 수량 수정시 ITEMLIST 재고에도 수정 반영
-		cDAO.WHupdate(cVO);
+		
 		
 		mv.setViewName("code/WHPRV");
 		return mv;

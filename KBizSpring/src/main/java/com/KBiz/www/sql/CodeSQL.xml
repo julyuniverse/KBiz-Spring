@@ -193,7 +193,7 @@
 	<!-- 금일 입고 1개 수정시 ITEMLIST 재고에도 수정 반영 -->
 	<update id="WHupdate" parameterType="cVO">
 		UPDATE ITEMLIST
-		SET STOCKAMT = STOCKAMT - #{qow2} + #{qow}
+		SET STOCKAMT = STOCKAMT - (SELECT INSAMT FROM INITEMLIST WHERE INITEMLIST.INSITEMLISTCD = #{whcd}) + #{qow}
 		WHERE ITEMCD = #{itemcd}
 	</update>
 	

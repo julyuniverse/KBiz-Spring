@@ -247,9 +247,9 @@ $(function(){
 			<input type="hidden" id="twoAction" value="a1">
 			
 			<form method="post" id="form1">
-			<input type="hidden" id="whcd" name="whcd">
+			<input type="text" id="whcd" name="whcd">
 			<p>상품코드:<span id="OPitemcd"></span></p>
-			<p><input id="IPitemcd" type="hidden" name="itemcd"></p>
+			<p><input id="IPitemcd" type="text" name="itemcd"></p>
 			
 			<p>상 품 명:<span id="OPitemnm"></span></p>
 			
@@ -257,7 +257,6 @@ $(function(){
 			
 			<p>단 위 명:<span id="OPitemunitcdnm"></span></p>
 			<p id="OPqow2">입고수량:<span id="OPqow"></span></p>
-			<input type="hidden" name="qow2">
 			<p id="OPqow3">입고수량:<input type="text" name="qow"></p>
 			</form>
 			

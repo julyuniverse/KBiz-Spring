@@ -16,7 +16,6 @@ public class CodeVO {
 	private int stockamt;
 	private String stockyn;
 	private int qow;
-	private int qow2;
 	private String whcd;
 	private int fq;
 	private String id;
@@ -116,12 +115,6 @@ public class CodeVO {
 	}
 	public void setQow(int qow) {
 		this.qow = qow;
-	}
-	public int getQow2() {
-		return qow2;
-	}
-	public void setQow2(int qow2) {
-		this.qow2 = qow2;
 	}
 	public String getWhcd() {
 		return whcd;
