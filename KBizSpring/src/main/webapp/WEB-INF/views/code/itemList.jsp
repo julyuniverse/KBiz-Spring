@@ -35,7 +35,7 @@ $(function(){
 				$("select[name=firstClassification] option").remove(); // 옵션 제거
 				$("select[name=firstClassification]").append('<option value="">--선택--</option>');
 				for(key in data){
-					$("select[name=firstClassification]").append('<option value="' + data[key].cdno + '">' + data[key].cdnm + '</option>');
+	$("select[name=firstClassification]").append('<option value="' + data[key].cdno + '">' + data[key].cdnm + '</option>');
 				}
 				console.log(data[key]);
 			}
